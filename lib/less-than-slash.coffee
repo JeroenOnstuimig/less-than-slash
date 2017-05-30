@@ -8,6 +8,7 @@
   xmlcdataparser,
   xmlcommentparser,
   underscoretemplateparser,
+  eeparser,
   mustacheparser
 } = require './parsers'
 
@@ -18,6 +19,7 @@ module.exports =
     xmlcdataparser,
     xmlcommentparser,
     underscoretemplateparser,
+    eeparser,
     mustacheparser
   ]
 

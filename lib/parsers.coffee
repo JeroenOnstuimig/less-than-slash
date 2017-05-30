@@ -118,6 +118,35 @@ module.exports =
         length: text.match(@test)[0].length
       }
     getPair: null
+  eeparser:
+    name: "ee"
+    trigger: /{\/$/
+    test: /^{/
+    parse: (text) ->
+      result = {
+        opening: false
+        closing: false
+        selfClosing: false
+        element: ''
+        type: @name
+        length: 0
+      }
+      match = text.match(/^{(\/)?([^\s\/{}]+)(\s+([\w-:]+)(=["'`](.*?)["'`])?)*\s*(\/)?}/i)
+      if match
+        result.element     = match[2]
+        result.length      = match[0].length
+        if @emptyTags.indexOf(result.element.toLowerCase()) > -1
+          result.selfClosing = true
+        else
+          result.opening     = if match[1] or match[7] then false else true
+          result.closing     = if match[1] then true else false
+          result.selfClosing = if match[7] then true else false
+        result
+      else
+        null
+    getPair: (tagDescriptor) ->
+        "\{/#{tagDescriptor.element}\}"
+    emptyTags: []
   # DISABLED
   mustacheparser:
     name: 'mustache',
